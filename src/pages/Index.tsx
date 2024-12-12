@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { PhoneCall, Battery, MapPin, Clock, Car, Truck, Building, BatteryCharging, BatteryLow, Tool, Shield, Zap, BatteryFull, Star } from "lucide-react";
+import { PhoneCall, Battery, MapPin, Clock, Car, Truck, Building, BatteryCharging, BatteryLow, Wrench, Shield, Zap, BatteryFull, Star } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
@@ -70,7 +70,7 @@ const Index = () => {
       description: "Avaliação completa do estado da sua bateria sem custo em Ribeirão Preto."
     },
     {
-      icon: <Tool className="w-12 h-12 text-battery-primary" />,
+      icon: <Wrench className="w-12 h-12 text-battery-primary" />,
       title: "Manutenção Preventiva",
       description: "Serviço especializado de manutenção para prolongar a vida útil da sua bateria."
     },
