@@ -3,8 +3,11 @@ import { Card } from "@/components/ui/card";
 import { PhoneCall, Battery, MapPin, Clock, Car, Truck, Building, BatteryCharging, BatteryLow, Wrench, Shield, Zap, BatteryFull, Star } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { useState } from "react";
 
 const Index = () => {
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState<string | null>(null);
+
   const testimonials = [
     {
       name: "João Silva",
@@ -91,9 +94,144 @@ const Index = () => {
     }
   ];
 
+  const neighborhoodData = {
+    "jardim-paulista": {
+      title: "Baterias no Jardim Paulista - Ribeirão Preto",
+      description: "Serviço especializado de baterias automotivas no Jardim Paulista. Atendimento 24 horas com profissionais qualificados.",
+      content: "Precisando de bateria nova no Jardim Paulista? Nossa equipe especializada atende toda a região com serviço móvel 24 horas. Oferecemos as melhores marcas de baterias para carros, motos e caminhões, com garantia estendida e preços competitivos.",
+      features: [
+        "Atendimento emergencial 24 horas",
+        "Troca de bateria em domicílio",
+        "Teste gratuito da bateria atual",
+        "Descarte ecológico da bateria antiga"
+      ]
+    },
+    "centro": {
+      title: "Baterias no Centro - Ribeirão Preto",
+      description: "Troca de bateria 24 horas no Centro de Ribeirão Preto. Atendimento rápido e profissional para todos os tipos de veículos.",
+      content: "Localizado no coração de Ribeirão Preto, nosso serviço de baterias atende toda a região central com rapidez e eficiência. Contamos com estoque completo das principais marcas e técnicos especializados.",
+      features: [
+        "Pronto atendimento no Centro",
+        "Serviço móvel para empresas",
+        "Baterias com garantia estendida",
+        "Suporte técnico especializado"
+      ]
+    },
+    "campos-eliseos": {
+      title: "Baterias em Campos Elíseos - Ribeirão Preto",
+      description: "Serviço completo de baterias em Campos Elíseos. Atendimento 24 horas com as melhores marcas do mercado.",
+      content: "Em Campos Elíseos, oferecemos serviço completo de baterias para todos os tipos de veículos. Nossa equipe está sempre pronta para atender suas necessidades com rapidez e qualidade.",
+      features: [
+        "Atendimento residencial e comercial",
+        "Baterias para todos os tipos de veículos",
+        "Serviço de socorro 24 horas",
+        "Melhores preços da região"
+      ]
+    },
+    "vila-tiberio": {
+      title: "Baterias na Vila Tibério - Ribeirão Preto",
+      description: "Troca de bateria e assistência técnica na Vila Tibério. Atendimento 24 horas com serviço móvel.",
+      content: "Na Vila Tibério, conte com nossa experiência em baterias automotivas. Oferecemos serviço completo de diagnóstico, troca e manutenção, com atendimento personalizado.",
+      features: [
+        "Diagnóstico gratuito",
+        "Troca de bateria em domicílio",
+        "Atendimento 24 horas",
+        "Garantia em todos os serviços"
+      ]
+    },
+    "lagoinha": {
+      title: "Baterias na Lagoinha - Ribeirão Preto",
+      description: "Serviço de baterias na Lagoinha com atendimento 24 horas. Troca de bateria em domicílio.",
+      content: "Atendemos toda a região da Lagoinha com serviço especializado em baterias. Nossa equipe está preparada para resolver seu problema com agilidade e profissionalismo.",
+      features: [
+        "Atendimento emergencial",
+        "Baterias de alta qualidade",
+        "Preços competitivos",
+        "Garantia estendida"
+      ]
+    },
+    "jardim-independencia": {
+      title: "Baterias no Jardim Independência - Ribeirão Preto",
+      description: "Serviço de baterias no Jardim Independência. Atendimento 24 horas com as melhores marcas.",
+      content: "No Jardim Independência, oferecemos serviço completo de baterias com atendimento 24 horas. Trabalhamos com as melhores marcas do mercado e garantia estendida.",
+      features: [
+        "Socorro 24 horas",
+        "Troca de bateria no local",
+        "Marcas premium",
+        "Melhor custo-benefício"
+      ]
+    },
+    "ipiranga": {
+      title: "Baterias no Ipiranga - Ribeirão Preto",
+      description: "Troca de bateria e assistência técnica no Ipiranga. Atendimento 24 horas em toda região.",
+      content: "Precisando de bateria nova no Ipiranga? Nossa equipe especializada atende toda a região com serviço móvel 24 horas. Oferecemos as melhores marcas e condições.",
+      features: [
+        "Atendimento local",
+        "Serviço móvel 24h",
+        "Garantia estendida",
+        "Suporte técnico"
+      ]
+    },
+    "sumarezinho": {
+      title: "Baterias no Sumarezinho - Ribeirão Preto",
+      description: "Serviço de baterias no Sumarezinho com atendimento 24 horas. Melhor preço da região.",
+      content: "No Sumarezinho, conte com nossa experiência em baterias automotivas. Oferecemos serviço completo com as melhores marcas e preços da região.",
+      features: [
+        "Atendimento rápido",
+        "Melhores marcas",
+        "Preço justo",
+        "Garantia em todos os serviços"
+      ]
+    }
+  };
+
+  const renderNeighborhoodContent = () => {
+    if (!selectedNeighborhood) return null;
+
+    const neighborhood = neighborhoodData[selectedNeighborhood as keyof typeof neighborhoodData];
+    if (!neighborhood) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+          <div className="flex justify-between items-start mb-4">
+            <h2 className="text-2xl font-bold text-battery-primary">{neighborhood.title}</h2>
+            <button 
+              onClick={() => setSelectedNeighborhood(null)}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+          </div>
+          <p className="text-gray-600 mb-4">{neighborhood.description}</p>
+          <p className="mb-6">{neighborhood.content}</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {neighborhood.features.map((feature, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <Battery className="text-battery-primary" />
+                <span>{feature}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button className="flex items-center gap-2">
+              <PhoneCall className="w-4 h-4" />
+              Solicitar Atendimento
+            </Button>
+            <Button variant="outline" className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              Ver Localização
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Menu Âncora */}
       <nav className="sticky top-0 bg-white shadow-md z-50">
         <div className="container mx-auto px-4 py-4">
           <ul className="flex flex-wrap justify-center gap-4 text-sm md:text-base">
@@ -106,7 +244,6 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Header/Hero Section */}
       <header className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Baterias em Ribeirão Preto</h1>
@@ -122,7 +259,6 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Serviços Section */}
       <section id="servicos" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Nossos Serviços</h2>
@@ -140,7 +276,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Áreas Atendidas Section */}
       <section id="areas" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Áreas Atendidas em Ribeirão Preto</h2>
@@ -148,12 +283,15 @@ const Index = () => {
             {neighborhoods.map((bairro, index) => (
               <HoverCard key={index}>
                 <HoverCardTrigger asChild>
-                  <a href={`/bairros/${bairro.name.toLowerCase().replace(/\s+/g, '-')}`} className="block">
+                  <button
+                    onClick={() => setSelectedNeighborhood(bairro.name.toLowerCase().replace(/\s+/g, '-'))}
+                    className="w-full"
+                  >
                     <div className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow text-center">
                       <MapPin className="w-6 h-6 mx-auto mb-2 text-battery-primary" />
                       <p className="font-medium">{bairro.name}</p>
                     </div>
-                  </a>
+                  </button>
                 </HoverCardTrigger>
                 <HoverCardContent className="w-80">
                   <p className="text-sm">{bairro.description}</p>
@@ -164,7 +302,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Depoimentos Section */}
       <section id="depoimentos" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">O que nossos clientes dizem</h2>
@@ -186,7 +323,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section id="faq" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Perguntas Frequentes</h2>
@@ -255,7 +391,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section className="text-center mb-16" id="contato">
         <h2 className="text-3xl font-bold mb-8">Entre em Contato</h2>
         <div className="flex flex-col md:flex-row justify-center gap-8">
@@ -277,7 +412,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Floating WhatsApp Button */}
       <a
         href="https://wa.me/5516999999999"
         className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors"
@@ -294,12 +428,13 @@ const Index = () => {
         </svg>
       </a>
 
-      {/* Footer */}
       <footer className="bg-blue-900 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <p>© 2024 Baterias Ribeirão Preto - Todos os direitos reservados</p>
         </div>
       </footer>
+
+      {renderNeighborhoodContent()}
     </div>
   );
 };
